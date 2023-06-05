@@ -22,7 +22,15 @@ public class GithubProvider {
 
     //用java模拟post请求(httpclient很复杂)
     //用okhttp
+    //用于从GitHub的OAuth API端点获取访问令牌（access token）。
     public String getAccessToken(AccessTokenDTO accessTokenDTO){
+
+        /*1. 创建一个`MediaType`对象，指定请求的媒体类型为`application/json; charset=utf-8`。
+2. 创建一个`OkHttpClient`对象，用于发送HTTP请求。
+3. 创建一个`RequestBody`对象，将`accessTokenDTO`对象转换为JSON格式，并设置媒体类型为之前创建的`MediaType`。
+4. 创建一个`Request`对象，设置URL为`https://github.com/login/oauth/access_token`，使用POST方法，并将之前创建的`RequestBody`作为请求体。
+5. 使用`client`对象发起请求，并使用`Response`对象接收响应。
+*/
 
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
@@ -47,7 +55,7 @@ public class GithubProvider {
         return null;
     }
 
-
+     //getAccessToken()方法 它只是将访问令牌字符串从返回的响应中提取出来，并将其作为结果返回。你还需要使用获取到的访问令牌进行实际的API访问。
     public GithubUser getUser(String accessToken){
         OkHttpClient client = new OkHttpClient();
 
