@@ -2,6 +2,16 @@ package hhucommunity.dto;
 
 public class GithubUser {
     private String name;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    private String login;
     private Long id;
 
     private String bio;

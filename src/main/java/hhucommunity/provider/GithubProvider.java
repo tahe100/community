@@ -52,15 +52,17 @@ public class GithubProvider {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("https://api.github.com/user?access_token=" + accessToken)
+                .url("https://api.github.com/user")
+                .header("Authorization", "token " + accessToken)
                 .build();
 
             try{
                 Response response = client.newCall(request).execute();
                 String string = response.body().string();
                 //用JSON.parseObject(string, GithubUser.class)把string的Json对象自动的解析为java类对象
+                System.out.println(string);
                 GithubUser githubUser = JSON.parseObject(string, GithubUser.class);
-                System.out.println(githubUser.getName());
+                githubUser.setName(githubUser.getLogin());
                 return githubUser;
             }catch(IOException e){
 
