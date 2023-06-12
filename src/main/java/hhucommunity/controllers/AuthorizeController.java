@@ -2,12 +2,17 @@ package hhucommunity.controllers;
 
 import hhucommunity.dto.AccessTokenDTO;
 import hhucommunity.dto.GithubUser;
+import hhucommunity.mapper.UserMapper;
+import hhucommunity.model.HhuUser;
 import hhucommunity.provider.GithubProvider;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
@@ -27,9 +32,14 @@ public class AuthorizeController {
     @Value("${github.redirect.uri}")
     private String redirectUri;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code")String code,
-                           @RequestParam(name="state")String state){
+                           @RequestParam(name="state")String state,
+                           HttpServletRequest request//Session 是在request里拿到的
+                                       ){
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
@@ -39,8 +49,27 @@ public class AuthorizeController {
         //用java模拟post请求(httpclient很复杂)
         //用okhttp
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser user = githubProvider.getUser(accessToken);
-        System.out.println(user.getName());
+        GithubUser githubUser = githubProvider.getUser(accessToken);
+        if(githubUser != null){
+            //Login successful
+            //写 cookie 和session
+            request.getSession().setAttribute("user",githubUser);
+            HhuUser hhuUser = new HhuUser();
+            hhuUser.setToken(UUID.randomUUID().toString());
+            hhuUser.setName(githubUser.getName());
+            hhuUser.setAccountId(String.valueOf(githubUser.getId()));
+            hhuUser.setGmtCreat(System.currentTimeMillis());
+            hhuUser.setGmtModified(hhuUser.getGmtCreat());
+            System.out.println(hhuUser.toString());
+            userMapper.insert(hhuUser);
+
+
+            return "redirect:/";//如果return "index" 虽然还是会回到首页但是地址是
+                                    // http://localhost:8080/callback?code=8daea70246ad70daeb3f&state=1
+                                    //只有 redirect:/
+        }else{
+            //Login failed. Please login again.
+        }
         return "index";
     }
 
