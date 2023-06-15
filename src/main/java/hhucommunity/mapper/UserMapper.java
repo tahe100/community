@@ -13,4 +13,6 @@ public interface UserMapper {
     @Insert("INSERT INTO user (name,account_id,token,GMT_CREATE,gmt_modified) VALUES (#{name},#{accountId},#{token},#{gmtCreat},#{gmtModified})")
     void insert(HhuUser user);
 
+    @Select("SELECT * from user where token = #{token}")//insert里的参数user是一个类直接放而findByToken里token不是类所以要加一个@param()
+    HhuUser findByToken(@Param("token") String token);
 }

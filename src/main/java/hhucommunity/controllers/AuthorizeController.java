@@ -5,7 +5,9 @@ import hhucommunity.dto.GithubUser;
 import hhucommunity.mapper.UserMapper;
 import hhucommunity.model.HhuUser;
 import hhucommunity.provider.GithubProvider;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -38,8 +40,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code")String code,
                            @RequestParam(name="state")String state,
-                           HttpServletRequest request//Session 是在request里拿到的
-                                       ){
+                           HttpServletRequest request,//Session 是在request里拿到的
+                           HttpServletResponse response){
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
@@ -52,17 +54,21 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if(githubUser != null){
             //Login successful
-            //写 cookie 和session
-            request.getSession().setAttribute("user",githubUser);
+
             HhuUser hhuUser = new HhuUser();
-            hhuUser.setToken(UUID.randomUUID().toString());
+            //快捷键 command+alt+v 抽取变量
+            String token = UUID.randomUUID().toString();
+            hhuUser.setToken(token);
             hhuUser.setName(githubUser.getName());
             hhuUser.setAccountId(String.valueOf(githubUser.getId()));
             hhuUser.setGmtCreat(System.currentTimeMillis());
             hhuUser.setGmtModified(hhuUser.getGmtCreat());
             System.out.println(hhuUser.toString());
+            //写 cookie 和session
+            //用数据库实物的储存代替了session
             userMapper.insert(hhuUser);
-
+            //request.getSession().setAttribute("user",githubUser);
+            response.addCookie(new Cookie("token",token));
 
             return "redirect:/";//如果return "index" 虽然还是会回到首页但是地址是
                                     // http://localhost:8080/callback?code=8daea70246ad70daeb3f&state=1
