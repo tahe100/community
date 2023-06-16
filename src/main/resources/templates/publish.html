@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>publish-hhuCommunity</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/hhucommunity.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type="application/javascript" ></script>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">hhu community</span>
+            </button>
+            <a class="navbar-brand" href="#">hhu community</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li th:if = "${session.user == null}">
+                    <a href="https://github.com/login/oauth/authorize?client_id=c7bd086943ffebd8461e&redirect_uri=http://localhost:8080/callback&scope=user&state=1">log in</a>
+                </li>
+                <li class="dropdown" th:if = "${session.user != null}">
+                    <a href="#" th:text="${session.user.getName()}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">me<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">my profil</a></li>
+                        <li><a href="#">news</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">log out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>new</h2>
+            <hr>
+            <form action="">
+                <div class="form-group">
+                    <label for="topic">topic:</label>
+                    <input type="text" class="form-control" id="topic" name="topic" placeholder="topic">
+                </div>
+                <div class="form-group">
+                    <label for="description">description</label>
+                    <textarea id="description" name="description" cols="30" rows="10" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tag">tag</label>
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="tag 以逗号分隔">
+                </div>
+                <button type="submit" class="btn btn-success btn-publish" >publish</button>
+            </form>
+
+
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>Guidelines for Posting a Question</h3>
+            • Question Title: Please use concise language to describe your posted question, within 25 characters. <br>
+            • Additional Details: Provide detailed information about your question, ensuring clear and intuitive description, and include relevant resources if possible. <br>
+            • Select Tags: Choose one or more appropriate tags, separated by commas, with each tag not exceeding 10 characters.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

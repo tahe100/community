@@ -1,0 +1,14 @@
+body {
+    background-color: #efefef;
+}
+
+.main {
+    background-color: white;
+    margin: 30px;
+}
+
+/*这段代码定义了一个类名为 .btn-publish 的样式。它会将具有该类名的元素向右浮动（右对齐），并在下方添加15像素的下边距*/
+.btn-publish{
+    float: right;
+    margin-bottom: 15px;
+}
