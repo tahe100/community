@@ -35,6 +35,8 @@ public class PublishController {
                            @RequestParam("tag")String tag,
                            HttpServletRequest request,
                            Model model){
+
+        //写到前面用于页面回显
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
@@ -55,19 +57,25 @@ public class PublishController {
         }
 
         HhuUser user = null;
+
         Cookie[] cookies = request.getCookies();
-        for(Cookie cookie:cookies){
-            if(cookie.getName().equals("token")){
-                String token = cookie.getValue();
-                //快捷键alt + 回车 修复快捷键直接在mapper里创建findByToken方法
-                user = userMapper.findByToken(token);
-                if(user != null){
-                    request.getSession().setAttribute("user",user);
+        if(cookies != null && cookies.length != 0){
+
+            for(Cookie cookie:cookies){
+                if(cookie.getName().equals("token")){
+                    String token = cookie.getValue();
+                    //快捷键alt + 回车 修复快捷键直接在mapper里创建findByToken方法
+                    user = userMapper.findByToken(token);
+                    if(user != null){
+                        request.getSession().setAttribute("user",user);
+                    }
+                    break;
                 }
-                break;
+
             }
 
         }
+
 
         if(user == null){
             model.addAttribute("error","User not logged in");

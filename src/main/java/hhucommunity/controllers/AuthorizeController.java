@@ -63,6 +63,7 @@ public class AuthorizeController {
             hhuUser.setAccountId(String.valueOf(githubUser.getId()));
             hhuUser.setGmtCreat(System.currentTimeMillis());
             hhuUser.setGmtModified(hhuUser.getGmtCreat());
+            hhuUser.setAvatarUrl(githubUser.getAvatarUrl());
             System.out.println(hhuUser.toString());
             //写 cookie 和session
             //用数据库实物的储存代替了session
