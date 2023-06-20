@@ -3,7 +3,7 @@ package hhucommunity.controllers;
 import hhucommunity.dto.AccessTokenDTO;
 import hhucommunity.dto.GithubUser;
 import hhucommunity.mapper.UserMapper;
-import hhucommunity.model.HhuUser;
+import hhucommunity.model.CommunityUser;
 import hhucommunity.provider.GithubProvider;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,19 +55,19 @@ public class AuthorizeController {
         if(githubUser != null){
             //Login successful
 
-            HhuUser hhuUser = new HhuUser();
+            CommunityUser communityUser = new CommunityUser();
             //快捷键 command+alt+v 抽取变量
             String token = UUID.randomUUID().toString();
-            hhuUser.setToken(token);
-            hhuUser.setName(githubUser.getName());
-            hhuUser.setAccountId(String.valueOf(githubUser.getId()));
-            hhuUser.setGmtCreat(System.currentTimeMillis());
-            hhuUser.setGmtModified(hhuUser.getGmtCreat());
-            hhuUser.setAvatarUrl(githubUser.getAvatarUrl());
-            System.out.println(hhuUser.toString());
+            communityUser.setToken(token);
+            communityUser.setName(githubUser.getName());
+            communityUser.setAccountId(String.valueOf(githubUser.getId()));
+            communityUser.setGmtCreat(System.currentTimeMillis());
+            communityUser.setGmtModified(communityUser.getGmtCreat());
+            communityUser.setAvatarUrl(githubUser.getAvatarUrl());
+            System.out.println(communityUser.toString());
             //写 cookie 和session
             //用数据库实物的储存代替了session
-            userMapper.insert(hhuUser);
+            userMapper.insert(communityUser);
             //request.getSession().setAttribute("user",githubUser);
             response.addCookie(new Cookie("token",token));
 

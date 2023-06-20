@@ -2,10 +2,9 @@ package hhucommunity.controllers;
 
 import hhucommunity.mapper.TopicMapper;
 import hhucommunity.mapper.UserMapper;
-import hhucommunity.model.HhuUser;
+import hhucommunity.model.CommunityUser;
 import hhucommunity.model.Topic;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,7 +55,7 @@ public class PublishController {
             return "publish";
         }
 
-        HhuUser user = null;
+        CommunityUser user = null;
 
         Cookie[] cookies = request.getCookies();
         if(cookies != null && cookies.length != 0){

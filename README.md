@@ -9,3 +9,5 @@
 
 [Grid System](https://v3.bootcss.com/css/#grid)
 
+[Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#setting-attribute-values)
+

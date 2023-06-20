@@ -5,6 +5,7 @@
     <title>hhu community</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/community.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" type="application/javascript" ></script>
 </head>
 <body>
@@ -15,7 +16,7 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">hhu community</span>
             </button>
-            <a class="navbar-brand" href="#">hhu community</a>
+            <a class="navbar-brand" href="/">hhu community</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -48,5 +49,35 @@
         </div>
     </div>
 </nav>
+
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Discover</h2>
+            <hr>
+            <div class="media" th:each="topic:${topics}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-rounded" th:src="${topic.getCommunityUser().getAvatarUrl()}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${topic.getTitle()}">hhh</h4>
+                    <br>
+                    <span class="text-desc">
+                        <span th:text="${topic.getViewCount()?:0}"></span> <span>times browsed .</span>
+                        <span th:text="${topic.getLikeCount()?:0}"></span> <span>times liked</span>
+
+                    </span>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>Top Topics</h3>
+        </div>
+    </div>
+</div>
 </body>
 </html>
