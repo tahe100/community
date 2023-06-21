@@ -1,5 +1,6 @@
 package hhucommunity.service;
 
+import hhucommunity.dto.PaginationDTO;
 import hhucommunity.dto.TopicDTO;
 import hhucommunity.mapper.TopicMapper;
 import hhucommunity.mapper.UserMapper;
@@ -23,11 +24,15 @@ public class TopicService {
     @Autowired
     UserMapper userMapper;
 
-    public List<TopicDTO> list() {
+    public PaginationDTO list(Integer page, Integer size) {
         List<TopicDTO> topicDTOs= new ArrayList<>();
-        List<Topic> topics = topicMapper.list();
+        PaginationDTO paginationDTO = new PaginationDTO();
+        int offset = (page -1) * size;
+        List<Topic> topics = topicMapper.list(offset,size);
+
         for(Topic topic: topics){
             //找到user并组装
+            //userMapper.findByID(topic.getCreator())在数据库里是下划线而在类里是驼峰所以在yml里要mybatis.configuration.map-underscore-to-camel-case=true
             CommunityUser user = userMapper.findByID(topic.getCreator());
             TopicDTO topicDTO = new TopicDTO();
             if(user != null){
@@ -38,6 +43,10 @@ public class TopicService {
             topicDTOs.add(topicDTO);
         }
 
-        return topicDTOs;
+        paginationDTO.setTopics(topicDTOs);
+        Integer totalCount = topicMapper.count();
+        paginationDTO.setPagination(totalCount,page,size);
+
+        return paginationDTO;
     }
 }

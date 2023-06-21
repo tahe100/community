@@ -1,15 +1,18 @@
 package hhucommunity.controllers;
 
+import hhucommunity.dto.PaginationDTO;
 import hhucommunity.dto.TopicDTO;
 import hhucommunity.mapper.UserMapper;
 import hhucommunity.model.CommunityUser;
 import hhucommunity.service.TopicService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -23,7 +26,10 @@ public class IndexController {
     private TopicService topicService;
 
     @GetMapping("/")
-    public String index(HttpServletRequest request, Model model){
+    public String index(HttpServletRequest request,
+                        Model model,
+                        @RequestParam(name = "page" ,defaultValue = "1")Integer page,
+                        @RequestParam(name = "size" ,defaultValue = "5")Integer size){
 
         Cookie[] cookies = request.getCookies();
         if(cookies != null && cookies.length != 0){
@@ -40,8 +46,8 @@ public class IndexController {
             }
         }
 
-        List<TopicDTO> topics = topicService.list();
-        model.addAttribute("topics",topics);
+        PaginationDTO pagination = topicService.list(page,size);
+        model.addAttribute("pagination",pagination);
         return "index";
     }
 }
