@@ -25,8 +25,30 @@ public class TopicService {
     UserMapper userMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
-        List<TopicDTO> topicDTOs= new ArrayList<>();
+
         PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalCount = topicMapper.count();
+
+        int totalPage;
+        if(totalCount % size == 0){
+            totalPage = totalCount / size;
+        }else{
+            totalPage = totalCount / size + 1;
+        }
+
+
+        if(page < 1 ){
+            page = 1;
+        }
+
+        if(page > totalPage){
+            page = totalPage;
+        }
+
+        paginationDTO.setPagination(totalPage,page);
+
+        List<TopicDTO> topicDTOs= new ArrayList<>();
+
         int offset = (page -1) * size;
         List<Topic> topics = topicMapper.list(offset,size);
 
@@ -44,8 +66,6 @@ public class TopicService {
         }
 
         paginationDTO.setTopics(topicDTOs);
-        Integer totalCount = topicMapper.count();
-        paginationDTO.setPagination(totalCount,page,size);
 
         return paginationDTO;
     }
