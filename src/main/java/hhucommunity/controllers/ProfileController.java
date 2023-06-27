@@ -1,10 +1,8 @@
 package hhucommunity.controllers;
 
 import hhucommunity.dto.PaginationDTO;
-import hhucommunity.mapper.UserMapper;
 import hhucommunity.model.CommunityUser;
 import hhucommunity.service.TopicService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProfileController {
 
     @Autowired
-    UserMapper userMapper;
-
-    @Autowired
     TopicService topicService;
 
     @GetMapping("/profile/{action}")
@@ -29,22 +24,7 @@ public class ProfileController {
                           @RequestParam(name = "page" ,defaultValue = "1")Integer page,
                           @RequestParam(name = "size" ,defaultValue = "5")Integer size
                          ){
-
-        CommunityUser user = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null && cookies.length != 0){
-            for(Cookie cookie:cookies){
-                if(cookie.getName().equals("token")){
-                    String token = cookie.getValue();
-                    //快捷键alt + 回车 修复快捷键直接在mapper里创建findByToken方法
-                    user = userMapper.findByToken(token);
-                    if(user != null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
+        CommunityUser user =(CommunityUser)request.getSession().getAttribute("user");
 
         if(user == null){
             return "redirect:/";

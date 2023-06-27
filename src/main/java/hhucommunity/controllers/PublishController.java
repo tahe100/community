@@ -1,10 +1,8 @@
 package hhucommunity.controllers;
 
 import hhucommunity.mapper.TopicMapper;
-import hhucommunity.mapper.UserMapper;
 import hhucommunity.model.CommunityUser;
 import hhucommunity.model.Topic;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,8 +17,6 @@ public class PublishController {
     @Autowired
     TopicMapper topicMapper;
 
-    @Autowired
-    UserMapper userMapper;
     @GetMapping("/publish")
     public String publish(){
         return "publish";
@@ -55,26 +51,7 @@ public class PublishController {
             return "publish";
         }
 
-        CommunityUser user = null;
-
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null && cookies.length != 0){
-
-            for(Cookie cookie:cookies){
-                if(cookie.getName().equals("token")){
-                    String token = cookie.getValue();
-                    //快捷键alt + 回车 修复快捷键直接在mapper里创建findByToken方法
-                    user = userMapper.findByToken(token);
-                    if(user != null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-
-            }
-
-        }
-
+        CommunityUser user = (CommunityUser) request.getSession().getAttribute("user");
 
         if(user == null){
             model.addAttribute("error","User not logged in");
