@@ -69,4 +69,51 @@ public class TopicService {
 
         return paginationDTO;
     }
+
+    public PaginationDTO listByUserId(Integer userId, Integer page, Integer size) {
+
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalCount = topicMapper.countByUserId(userId);
+
+        int totalPage;
+        if(totalCount % size == 0){
+            totalPage = totalCount / size;
+        }else{
+            totalPage = totalCount / size + 1;
+        }
+
+
+        if(page < 1 ){
+            page = 1;
+        }
+
+        if(page > totalPage){
+            page = totalPage;
+        }
+
+        paginationDTO.setPagination(totalPage,page);
+
+        List<TopicDTO> topicDTOs= new ArrayList<>();
+
+        int offset = (page -1) * size;
+        List<Topic> topics = topicMapper.listByUserId(userId,offset,size);
+
+        for(Topic topic: topics){
+            //找到user并组装
+            //userMapper.findByID(topic.getCreator())在数据库里是下划线而在类里是驼峰所以在yml里要mybatis.configuration.map-underscore-to-camel-case=true
+            CommunityUser user = userMapper.findByID(topic.getCreator());
+            TopicDTO topicDTO = new TopicDTO();
+            if(user != null){
+                BeanUtils.copyProperties(topic,topicDTO);
+            }
+
+            topicDTO.setCommunityUser(user);
+            topicDTOs.add(topicDTO);
+        }
+
+        paginationDTO.setTopics(topicDTOs);
+
+        return paginationDTO;
+
+    }
 }

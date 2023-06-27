@@ -31,13 +31,14 @@ public class IndexController {
                         @RequestParam(name = "page" ,defaultValue = "1")Integer page,
                         @RequestParam(name = "size" ,defaultValue = "5")Integer size){
 
+        CommunityUser user = null;
         Cookie[] cookies = request.getCookies();
         if(cookies != null && cookies.length != 0){
             for(Cookie cookie:cookies){
                 if(cookie.getName().equals("token")){
                     String token = cookie.getValue();
                     //快捷键alt + 回车 修复快捷键直接在mapper里创建findByToken方法
-                    CommunityUser user = userMapper.findByToken(token);
+                    user = userMapper.findByToken(token);
                     if(user != null){
                         request.getSession().setAttribute("user",user);
                     }

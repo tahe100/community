@@ -3,6 +3,7 @@ package hhucommunity.mapper;
 import hhucommunity.model.Topic;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -17,4 +18,11 @@ public interface TopicMapper {
 
     @Select("Select count(1) from topic")
     Integer count();
+
+    @Select("Select * from topic where creator = #{userId} limit #{offset},#{size}")
+    List<Topic> listByUserId(@Param("userId") Integer userId, @Param("offset") int offset, @Param("size") Integer size);
+
+
+    @Select("Select count(1) from topic where creator = #{userId}")
+    Integer countByUserId(@Param("userId") Integer userId);
 }
