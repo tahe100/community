@@ -116,4 +116,15 @@ public class TopicService {
         return paginationDTO;
 
     }
+
+    public TopicDTO getById(Integer id) {
+
+        //TopicDTO topic = topicMapper.getById(id);不能这样写 因为存的表里的是topic 而不是topicDTO(topicDTO 还封装了user)
+        Topic topic = topicMapper.getById(id);
+        TopicDTO topicDTO =new TopicDTO();
+        BeanUtils.copyProperties(topic,topicDTO);
+        topicDTO.setCommunityUser(userMapper.findByID(topic.getCreator()));
+
+        return  topicDTO;
+    }
 }

@@ -1,5 +1,6 @@
 package hhucommunity.mapper;
 
+import hhucommunity.dto.TopicDTO;
 import hhucommunity.model.Topic;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,7 @@ public interface TopicMapper {
 
     @Select("Select count(1) from topic where creator = #{userId}")
     Integer countByUserId(@Param("userId") Integer userId);
+
+    @Select("SELECT * from topic where id = #{id}")
+    Topic getById(@Param("id")Integer id);
 }

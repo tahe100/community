@@ -24,12 +24,13 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${topic.getTitle()}">hhh</h4>
+                    <h4 class="media-heading">
+                        <a th:href="@{/topic/{id}(id=${topic.id})}" th:text="${topic.title}"></a>
+                    </h4>
                     <br>
                     <span class="text-desc">
                         <span th:text="${topic.getViewCount()?:0}"></span> <span>times browsed .</span>
                         <span th:text="${topic.getLikeCount()?:0}"></span> <span>times liked</span>
-
                     </span>
                 </div>
             </div>
