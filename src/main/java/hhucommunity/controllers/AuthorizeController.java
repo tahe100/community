@@ -5,6 +5,7 @@ import hhucommunity.dto.GithubUser;
 import hhucommunity.mapper.UserMapper;
 import hhucommunity.model.CommunityUser;
 import hhucommunity.provider.GithubProvider;
+import hhucommunity.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,8 +35,9 @@ public class AuthorizeController {
     @Value("${github.redirect.uri}")
     private String redirectUri;
 
+
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code")String code,
@@ -61,13 +63,11 @@ public class AuthorizeController {
             communityUser.setToken(token);
             communityUser.setName(githubUser.getName());
             communityUser.setAccountId(String.valueOf(githubUser.getId()));
-            communityUser.setGmtCreat(System.currentTimeMillis());
-            communityUser.setGmtModified(communityUser.getGmtCreat());
             communityUser.setAvatarUrl(githubUser.getAvatarUrl());
             System.out.println(communityUser.toString());
             //写 cookie 和session
             //用数据库实物的储存代替了session
-            userMapper.insert(communityUser);
+            userService.createOrUpdate(communityUser);
             //request.getSession().setAttribute("user",githubUser);
             response.addCookie(new Cookie("token",token));
 
@@ -78,6 +78,18 @@ public class AuthorizeController {
             //Login failed. Please login again.
         }
         return "index";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,HttpServletResponse response){
+        //删除session
+        request.getSession().removeAttribute("user");
+        //删除cookie
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return "redirect:/";
     }
 
 

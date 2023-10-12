@@ -1,10 +1,7 @@
 package hhucommunity.mapper;
 
 import hhucommunity.model.CommunityUser;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
@@ -18,4 +15,10 @@ public interface UserMapper {
 
     @Select("SELECT * from user where id = #{id}")
     CommunityUser findByID(@Param("id")Integer id);
+
+    @Select("SELECT * from user where ACCOUNT_ID = #{accountId}")
+    CommunityUser findByAccountId(@Param("accountId")String accountId);
+
+    @Update("update user set name = #{name}, TOKEN = #{token}, GMT_MODIFIED = #{gmtModified}, AVATAR_URL= #{avatarUrl} where id = #{id}")
+    void update(CommunityUser User);
 }
