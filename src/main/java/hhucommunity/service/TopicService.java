@@ -127,4 +127,17 @@ public class TopicService {
 
         return  topicDTO;
     }
+
+    public void cteateOrUpdate(Topic topic) {
+        if(topic.getId() == null){
+            //创建
+            topic.setGmtCreat(System.currentTimeMillis());
+            topic.setGmtModified(topic.getGmtModified());
+            topicMapper.creat(topic);
+        }else{
+            //更新
+            topic.setGmtModified(topic.getGmtModified());
+            topicMapper.update(topic);
+        }
+    }
 }

@@ -2,10 +2,7 @@ package hhucommunity.mapper;
 
 import hhucommunity.dto.TopicDTO;
 import hhucommunity.model.Topic;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -29,4 +26,7 @@ public interface TopicMapper {
 
     @Select("SELECT * from topic where id = #{id}")
     Topic getById(@Param("id")Integer id);
+
+    @Update("update TOPIC set TITLE=#{title},DESCRIPTION=#{description},GMT_MODIFIED=#{gmtModified},TAG=#{tag} where ID=#{id}")
+    void update(Topic topic);
 }

@@ -18,6 +18,7 @@
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>new</h2>
             <hr>
             <form action="/publish" method="post">
+                <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">title:</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="title" th:value="${title}">

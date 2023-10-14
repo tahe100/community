@@ -1,21 +1,36 @@
 package hhucommunity.controllers;
 
+import hhucommunity.dto.TopicDTO;
 import hhucommunity.mapper.TopicMapper;
 import hhucommunity.model.CommunityUser;
 import hhucommunity.model.Topic;
+import hhucommunity.service.TopicService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PublishController {
 
+
     @Autowired
-    TopicMapper topicMapper;
+    private TopicService topicService;
+
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable(name = "id") Integer id,Model model){
+        TopicDTO topic = topicService.getById(id);
+        model.addAttribute("title",topic.getTitle());
+        model.addAttribute("description",topic.getDescription());
+        model.addAttribute("tag",topic.getTag());
+        model.addAttribute("id",id);
+
+        return "publish";
+    }
 
     @GetMapping("/publish")
     public String publish(){
@@ -25,9 +40,10 @@ public class PublishController {
     //前后端分离的项目: 点击提交后在publish页面如果有误 局部刷新publish页面 提示当前提交信息有误。
     //非前后端分离: 点击提交后 要把值传回去请求服务器端去做判断 如果符合就跳转到成功页面 如果不符合就还是回到publish页面
     @PostMapping("/publish")
-    public String publish2(@RequestParam("title")String title,
-                           @RequestParam("description") String description,
-                           @RequestParam("tag")String tag,
+    public String publish2(@RequestParam(value = "title",required = false)String title,
+                           @RequestParam(value = "description",required = false) String description,
+                           @RequestParam(value = "tag",required = false)String tag,
+                           @RequestParam(value = "id",required = false)Integer id,
                            HttpServletRequest request,
                            Model model){
 
@@ -63,9 +79,9 @@ public class PublishController {
         topic.setTag(tag);
         topic.setTitle(title);
         topic.setCreator(user.getId());
-        topic.setGmtCreat(System.currentTimeMillis());
-        topic.setGmtModified(topic.getGmtModified());
-        topicMapper.creat(topic);
+        topic.setId(id);
+
+        topicService.cteateOrUpdate(topic);
         return "redirect:/";
     }
 }
