@@ -27,7 +27,7 @@
                     <a th:href="@{/topic/{id}(id=${topic.id})}"><h4 class="media-heading" th:text="${topic.getTitle()}">hhh</h4></a>
                     <br>
                     <span class="text-desc">
-                        <span th:text="${topic.getViewCount()?:0}"></span> <span>times browsed .</span>
+                        <span th:text="${topic.getViewCount()?:0}"></span> <span>times viewed .</span>
                         <span th:text="${topic.getLikeCount()?:0}"></span> <span>times liked</span>
 
                     </span>

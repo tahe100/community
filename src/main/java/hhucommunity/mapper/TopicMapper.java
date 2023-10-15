@@ -29,4 +29,7 @@ public interface TopicMapper {
 
     @Update("update TOPIC set TITLE=#{title},DESCRIPTION=#{description},GMT_MODIFIED=#{gmtModified},TAG=#{tag} where ID=#{id}")
     void update(Topic topic);
+
+    @Update("update TOPIC set view_count=#{viewCount} ,GMT_MODIFIED=#{gmtModified} where ID=#{id}")
+    void updateIncView(Topic topic);
 }

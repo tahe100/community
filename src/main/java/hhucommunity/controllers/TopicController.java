@@ -24,6 +24,8 @@ public class TopicController {
         CommunityUser user = (CommunityUser) request.getSession().getAttribute("user");
 
         TopicDTO topic = topicService.getById(id);
+        //累加阅读数功能
+        topicService.incView(id);
         model.addAttribute("topic",topic);
         model.addAttribute("user",user);
 

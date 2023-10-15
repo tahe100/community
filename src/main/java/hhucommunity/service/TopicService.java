@@ -145,4 +145,19 @@ public class TopicService {
             topicMapper.update(topic);
         }
     }
+
+    public void incView(Integer id) {
+        //取值
+        Topic topic = topicMapper.getById(id);
+        System.out.println(topicMapper.getById(id).toString());
+        //设值
+        //topic.getViewCount()==null会导致CustomizeException调用弹出error.html
+        if(topic.getViewCount()==null){
+            topic.setViewCount(0);
+        }
+        topic.setViewCount(topic.getViewCount() + 1);
+        topic.setGmtModified(System.currentTimeMillis());
+        //存新值
+        topicMapper.updateIncView(topic);
+    }
 }

@@ -18,6 +18,7 @@
             <h3><span th:text="${topic.title}"></span></h3>
             <span class="text-desc">
                         <span>author </span><span th:text="${topic.getCommunityUser().getName()}"></span>
+                        <span> | viewed times :</span><span th:text="${topic.getViewCount()?:0}"></span>
                         <span> | created time </span><span th:text="${#dates.format(topic.getGmtCreat(),'yyyy-MM-dd')}"></span>
             </span>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
