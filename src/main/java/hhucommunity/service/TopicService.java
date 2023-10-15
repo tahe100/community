@@ -2,6 +2,8 @@ package hhucommunity.service;
 
 import hhucommunity.dto.PaginationDTO;
 import hhucommunity.dto.TopicDTO;
+import hhucommunity.exception.CustomizeErrorCode;
+import hhucommunity.exception.CustomizeException;
 import hhucommunity.mapper.TopicMapper;
 import hhucommunity.mapper.UserMapper;
 import hhucommunity.model.CommunityUser;
@@ -121,6 +123,9 @@ public class TopicService {
 
         //TopicDTO topic = topicMapper.getById(id);不能这样写 因为存的表里的是topic 而不是topicDTO(topicDTO 还封装了user)
         Topic topic = topicMapper.getById(id);
+        if(topic == null){
+            throw new CustomizeException(CustomizeErrorCode.TOPIC_NOT_FOUND);
+        }
         TopicDTO topicDTO =new TopicDTO();
         BeanUtils.copyProperties(topic,topicDTO);
         topicDTO.setCommunityUser(userMapper.findByID(topic.getCreator()));

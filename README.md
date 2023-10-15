@@ -1,4 +1,3 @@
-
 # Welcome To My Community.
 
 ## Documentations
@@ -13,3 +12,24 @@
 
 [spring-framework](https://docs.spring.io/spring-framework/docs/5.0.3.RELEASE/spring-framework-reference/web.html#mvc-handlermapping-interceptor)
 
+# Local Run Manual
+
+## Introduction
+
+This document serves as a guide to help you run the application locally on your development environment.
+
+## Getting Started
+
+Follow these steps to run the application on your local machine:
+
+1. **Clone the Repository**:
+
+    ```bash
+    git clone https://github.com/tahe100/community.git
+    ```
+
+2. **Run the database script to create a local database**:
+
+   ```bash
+   mvn flyway:migrate
+   ```
