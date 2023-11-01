@@ -9,6 +9,7 @@ import hhucommunity.model.Comment;
 import hhucommunity.model.Topic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CommentService {
@@ -22,6 +23,8 @@ public class CommentService {
     @Autowired
     TopicService topicService;
 
+
+    @Transactional
     public void insert(Comment comment) {
         if(comment.getParentId() == null || comment.getParentId() == 0){
             throw new CustomizeException(CustomizeErrorCode.TOPIC_NOT_FOUND);
