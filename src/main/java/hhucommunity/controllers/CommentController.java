@@ -29,6 +29,12 @@ public class CommentController {
         }
 
         Comment comment = new Comment( );
+        //我找到错误的地方了就是这里commentDTO.getParentID()居然为null
+        System.out.println(commentDTO.getParentID()+"hhhhhhhhhhhhhhhhhhhhhhhhh");
+        //commentDTO.getContent()这个值拿到了
+        System.out.println(commentDTO.getContent()+"Content");
+        //commentDTO.getType()这个值拿到了
+        System.out.println(commentDTO.getType()+"type");
         comment.setParentId(commentDTO.getParentID());
         comment.setContent(commentDTO.getContent());
         comment.setType(commentDTO.getType());
