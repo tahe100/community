@@ -138,6 +138,9 @@ public class TopicService {
             //创建
             topic.setGmtCreat(System.currentTimeMillis());
             topic.setGmtModified(topic.getGmtModified());
+            topic.setViewCount(0);
+            topic.setCommentCount(0);
+            topic.setLikeCount(0);
             topicMapper.creat(topic);
         }else{
             //更新
@@ -159,5 +162,20 @@ public class TopicService {
         topic.setGmtModified(System.currentTimeMillis());
         //存新值
         topicMapper.updateIncView(topic);
+    }
+
+    public void incComment(Integer id) {
+        //取值
+        Topic topic = topicMapper.getById(id);
+        System.out.println(topicMapper.getById(id).toString());
+        //设值
+        //topic.getCommentCount()==null会导致CustomizeException调用弹出error.html
+        if(topic.getCommentCount()==null){
+            topic.setCommentCount(0);
+        }
+        topic.setCommentCount(topic.getCommentCount() + 1);
+        topic.setGmtModified(System.currentTimeMillis());
+        //存新值
+        topicMapper.updateIncComment(topic);
     }
 }

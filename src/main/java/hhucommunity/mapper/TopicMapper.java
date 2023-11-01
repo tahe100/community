@@ -1,6 +1,5 @@
 package hhucommunity.mapper;
 
-import hhucommunity.dto.TopicDTO;
 import hhucommunity.model.Topic;
 import org.apache.ibatis.annotations.*;
 
@@ -32,4 +31,7 @@ public interface TopicMapper {
 
     @Update("update TOPIC set view_count=#{viewCount} ,GMT_MODIFIED=#{gmtModified} where ID=#{id}")
     void updateIncView(Topic topic);
+
+    @Update("update TOPIC set comment_count =#{commentCount} ,GMT_MODIFIED=#{gmtModified} where ID=#{id}")
+    void updateIncComment(Topic topic);
 }

@@ -2,7 +2,6 @@ package hhucommunity.controllers;
 
 import hhucommunity.dto.AccessTokenDTO;
 import hhucommunity.dto.GithubUser;
-import hhucommunity.mapper.UserMapper;
 import hhucommunity.model.CommunityUser;
 import hhucommunity.provider.GithubProvider;
 import hhucommunity.service.UserService;

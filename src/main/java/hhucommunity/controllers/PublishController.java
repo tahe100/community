@@ -1,7 +1,6 @@
 package hhucommunity.controllers;
 
 import hhucommunity.dto.TopicDTO;
-import hhucommunity.mapper.TopicMapper;
 import hhucommunity.model.CommunityUser;
 import hhucommunity.model.Topic;
 import hhucommunity.service.TopicService;
