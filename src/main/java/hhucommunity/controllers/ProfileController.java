@@ -38,10 +38,8 @@ public class ProfileController {
             model.addAttribute("sectionName","recent responses");
         }
         //PaginationDTO paginationDTO = topicService.listByUserId(user.getId(),page, size);
-        System.out.println("userid is" + user.getId());
         PaginationDTO paginationDTO = topicService.listByUserId(1,page, size);
         //PaginationDTO paginationDTO = topicService.listByUserId(2,page, size);
-        System.out.println(paginationDTO.toString());
         model.addAttribute("pagination",paginationDTO);
         return "profile";
     }

@@ -152,7 +152,6 @@ public class TopicService {
     public void incView(Integer id) {
         //取值
         Topic topic = topicMapper.getById(id);
-        System.out.println(topicMapper.getById(id).toString());
         //设值
         //topic.getViewCount()==null会导致CustomizeException调用弹出error.html
         if(topic.getViewCount()==null){
@@ -167,7 +166,6 @@ public class TopicService {
     public void incComment(Integer id) {
         //取值
         Topic topic = topicMapper.getById(id);
-        System.out.println(topicMapper.getById(id).toString());
         //设值
         //topic.getCommentCount()==null会导致CustomizeException调用弹出error.html
         if(topic.getCommentCount()==null){
