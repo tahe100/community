@@ -33,6 +33,35 @@
                 </div>
 
             </div>
+            <!--回复-->
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h4>
+                <span th:text="${topic.commentCount}"></span>个回复
+            </h4>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 comments" th:each="comment:${comments}">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded" th:src="${comment.getCommunityUser().getAvatarUrl()}">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <span th:text="${comment.getCommunityUser().getName()}"></span>
+                        </h4>
+                        <div th:text="${comment.content}">我是一个回复</div>
+                        <div class="menu">
+                            <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                            <span class="glyphicon glyphicon-comment icon"></span>
+                            <span class="pull-right" th:text="${#dates.format(comment.getGmtCreate(),'yyyy-MM-dd')}"></span>
+
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <!--回复输入框-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
                 <div class="media">

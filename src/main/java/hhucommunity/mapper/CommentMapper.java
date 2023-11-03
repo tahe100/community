@@ -1,9 +1,12 @@
 package hhucommunity.mapper;
 
+import hhucommunity.dto.CommentInTopicDTO;
 import hhucommunity.model.Comment;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface CommentMapper {
@@ -13,4 +16,7 @@ public interface CommentMapper {
 
     @Select("SELECT * from COMMENT where parent_id = #{parentId}")
     Comment selectByKey(Integer parentId);
+
+    @Select("SELECT * from COMMENT where parent_id = #{id} AND TYPE = 1")
+    List<Comment> listByTopicId(Integer id);
 }
